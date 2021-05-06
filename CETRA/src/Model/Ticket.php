@@ -169,6 +169,7 @@ class Ticket {
     /**
      * Get the value of resolved
      */ 
+    public function getResolved() : bool
     {
         return $this->resolved;
     }
