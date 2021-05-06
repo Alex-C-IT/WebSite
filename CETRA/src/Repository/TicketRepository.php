@@ -19,6 +19,12 @@ final class TicketRepository extends Repository
     {
         return $this->queryAndFetchAll("SELECT * FROM ". $this->table ." WHERE id_user = {$id}");
     }
+
+    public function findTicketByAccountId(int $idTicket, int $idUser) : ?Ticket
+    {
+        $ticket = $this->find($idTicket);
+        return ($ticket->getId_user() === $idUser) ? $ticket : null;  
+    }
 }
 
 ?>

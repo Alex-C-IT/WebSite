@@ -53,7 +53,7 @@ $router
         // Espace client
         ->get('/espaceperso/accueil', 'espaceperso/index', 'espaceperso_home')                          // Accueil espace perso
         // Tickets
-        ->get('/espaceperso/ticket/[*:slug]-[i:id]', 'ticket/show', 'ticket')                           // Un ticket
+        ->get('/espaceperso/ticket/[*:slug]-[i:id]', 'espaceperso/ticket/show', 'ticket')               // Un ticket
         ->get('/espaceperso/tickets', 'espaceperso/ticket/index', 'espaceperso_ticket_index')           // Liste des tickets espace personnel (par client)
         ->match('/espaceperso/ticket/new', 'espaceperso/ticket/new', 'espaceperso_ticket_new')          // Page création nouveau ticket
         ->post('/espaceperso/ticket/[i:id]/delete', 'espaceperso/ticket/delete', 'espaceperso_ticket_delete') // Suppression d'un ticket

@@ -7,11 +7,11 @@ class Ticket {
 
     private int $id;
     private string $slug;
-    private string $object;
-    private string $content;
+    private ?string $object = null;
+    private ?string $content = null;
     private string $dateRequest;
-    private ?string $contentAnswer;
-    private ?string $dateAnswer;
+    private ?string $contentAnswer = null;
+    private ?string $dateAnswer = null;
     private bool $resolved;
     
     private int $id_user;
@@ -49,7 +49,7 @@ class Ticket {
      */ 
     public function getObject() : ?string
     {
-        return isset($this->object) ? e($this->object) : null;
+        return $this->object;
     }
 
     /**
@@ -68,9 +68,9 @@ class Ticket {
     /**
      * Get the value of content
      */ 
-    public function getContent()
+    public function getContent() : ?string
     {
-        return isset($this->content) ? e($this->content) : null;
+        return $this->content;
     }
 
     /**
@@ -116,7 +116,7 @@ class Ticket {
      */ 
     public function getContentAnswer() : ?string
     {
-        return e($this->contentAnswer);
+        return $this->contentAnswer;
     }
 
     /**

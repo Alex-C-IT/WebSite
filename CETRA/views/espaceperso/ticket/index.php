@@ -12,7 +12,6 @@ $pdo = Connection::getPDO();
 
 // Récupération des tickets
 $tickets = (new TicketRepository($pdo))->findAllByAccountId($_SESSION['auth']['id']);
-dump($tickets);
 $title = "Espace personnel - Tickets";
 ?>
 
@@ -22,6 +21,11 @@ $title = "Espace personnel - Tickets";
     </div>
 <?php endif ?>
 
+<?php if(isset($_GET['delete'])): ?>
+    <div class="alert alert-danger">
+        <?= ($_GET['delete'] == 1) ? "Le ticket #{$_GET['id']} a bien été supprimé." : "Le ticket n°{$_GET['id']} n'a pas pu être supprimé." ?>
+    </div>
+<?php endif ?>
 
 <h1>Tickets</h1>
 
@@ -56,7 +60,7 @@ $title = "Espace personnel - Tickets";
                     <td><?= e($ticket->getObject()) ?></td>
                     <td>En cours de traitement</td>
                     <td>
-                        <a href="#"><button class="btn btn-success btn-sm">Visualiser</button></a>
+                        <a href="<?= $router->url('ticket', ['id' => $ticket->getId(), 'slug' => $ticket->getSlug()]); ?>"><button class="btn btn-success btn-sm">Visualiser</button></a>
                         <form class="d-inline" action="<?= $router->url('espaceperso_ticket_delete', ['id' => $ticket->getId()]); ?>" onsubmit='return confirm("Confirmez-vous la suppression de ce ticket ?");' method="POST">
                             <button class="btn btn-danger btn-sm" type="submit">Supprimer</button>
                         </form>
@@ -89,7 +93,7 @@ $title = "Espace personnel - Tickets";
                     <td><?= e($ticket->getObject()) ?></td>
                     <td>Traité</td>
                     <td><?= $ticket->getDateAnswerFormated() ?></td>
-                    <td><a href="#"><button class="btn btn-warning btn-sm">Visualiser</button></a></td>
+                    <td><a href="<?= $router->url('ticket', ['id' => $ticket->getId(), 'slug' => $ticket->getSlug()]); ?>"><button class="btn btn-warning btn-sm">Visualiser</button></a></td>
                 </tr>
             <?php endif ?>
         <?php endforeach ?>
