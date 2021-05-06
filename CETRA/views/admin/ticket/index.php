@@ -21,6 +21,14 @@ $pdo = Connection::getPDO();
 $tickets = (new TicketRepository($pdo))->findAll();
 
 $ok = isset($_GET['delete']) ? $_GET['delete'] : null;
+
+$nbTicketsEnAttente = 0;
+$nbTicketsTraites = 0;
+foreach($tickets as $ticket) 
+    if($ticket->getResolved() === false)
+        $nbTicketsEnAttente++;
+    else
+        $nbTicketsTraites++;
 ?>
 
 <?php if(isset($_GET['delete'])): ?>
@@ -41,6 +49,7 @@ $ok = isset($_GET['delete']) ? $_GET['delete'] : null;
 <div id="myTabContent" class="tab-content">
   <div class="tab-pane fade active show" id="en_cours">
     <br><br><br>
+    <?php if($nbTicketsEnAttente !== 0): ?>
     <table class="table table-hover m">
         <thead>
             <tr>
@@ -70,9 +79,13 @@ $ok = isset($_GET['delete']) ? $_GET['delete'] : null;
         <?php endforeach ?>
         </tbody>
     </table>
+    <?php else : ?>
+    <p>Aucun ticket à traiter.</p>
+    <?php endif ?>
   </div>
   <div class="tab-pane fade" id="resolus">
   <br><br><br>
+  <?php if($nbTicketsTraites !== 0): ?>
   <table class="table table-hover m">
         <thead>
             <tr>
@@ -104,5 +117,8 @@ $ok = isset($_GET['delete']) ? $_GET['delete'] : null;
         <?php endforeach ?>
         </tbody>
     </table>
+    <?php else : ?>
+    <p>Aucun ticket traité.</p>
+    <?php endif ?>
   </div>
 </div>

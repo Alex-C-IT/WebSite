@@ -2,6 +2,7 @@
 
 use App\Auth;
 use App\Connection;
+use App\Model\Ticket;
 use App\Repository\TicketRepository;
 
 if(!Auth::checkUserConnected())
@@ -13,6 +14,14 @@ $pdo = Connection::getPDO();
 // Récupération des tickets
 $tickets = (new TicketRepository($pdo))->findAllByAccountId($_SESSION['auth']['id']);
 $title = "Espace personnel - Tickets";
+
+$nbTicketsEnAttente = 0;
+$nbTicketsTraites = 0;
+foreach($tickets as $ticket) 
+    if($ticket->getResolved() === false)
+        $nbTicketsEnAttente++;
+    else
+        $nbTicketsTraites++;
 ?>
 
 <?php if(isset($_GET['created'])): ?>
@@ -38,9 +47,11 @@ $title = "Espace personnel - Tickets";
   <li class="nav-item">
     <a class="nav-link" data-toggle="tab" href="#resolus">Historique tickets traités</a>
   </li>
+
 <div id="myTabContent" class="tab-content">
   <div class="tab-pane fade active show" id="en_cours">
     <br><br><br>
+    <?php if($nbTicketsEnAttente !== 0): ?>
     <table class="table table-hover m">
         <thead>
             <tr>
@@ -58,7 +69,7 @@ $title = "Espace personnel - Tickets";
                     <th scope="row"><?= $ticket->getId() ?></th>
                     <td><?= $ticket->getDateRequestFormated() ?></td>
                     <td><?= e($ticket->getObject()) ?></td>
-                    <td>En cours de traitement</td>
+                    <td>En attente de traitement</td>
                     <td>
                         <a href="<?= $router->url('ticket', ['id' => $ticket->getId(), 'slug' => $ticket->getSlug()]); ?>"><button class="btn btn-success btn-sm">Visualiser</button></a>
                         <form class="d-inline" action="<?= $router->url('espaceperso_ticket_delete', ['id' => $ticket->getId()]); ?>" onsubmit='return confirm("Confirmez-vous la suppression de ce ticket ?");' method="POST">
@@ -70,9 +81,13 @@ $title = "Espace personnel - Tickets";
         <?php endforeach ?>
         </tbody>
     </table>
+    <?php else : ?>
+    <p>Aucun ticket en attente de traitement</p>
+    <?php endif ?>
   </div>
   <div class="tab-pane fade" id="resolus">
   <br><br><br>
+  <?php if($nbTicketsEnAttente !== 0): ?>
   <table class="table table-hover m">
         <thead>
             <tr>
@@ -99,5 +114,8 @@ $title = "Espace personnel - Tickets";
         <?php endforeach ?>
         </tbody>
     </table>
+    <?php else : ?>
+    <p>Aucun ticket traité</p>
+    <?php endif ?>
   </div>
 </div>
