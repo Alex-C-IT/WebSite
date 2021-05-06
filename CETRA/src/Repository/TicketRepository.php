@@ -3,6 +3,7 @@ namespace App\Repository;
 
 use PDO;
 use App\Model\Ticket;
+use App\Repository\Exception\UpdateException;
 use App\Repository\Exception\TicketUserNotFoundException;
 
 final class TicketRepository extends Repository 

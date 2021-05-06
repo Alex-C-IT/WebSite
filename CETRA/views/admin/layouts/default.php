@@ -30,6 +30,9 @@
                 <li class="nav-item">
                     <a class="nav-link <?php echo LinkHelper::isActive($_SERVER, $router->url('admin_partner_index')) ? "active" : "" ?>" href="<?= $router->url('admin_partner_index') ?>">Partenaires</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link <?php echo LinkHelper::isActive($_SERVER, $router->url('admin_ticket_index')) ? "active" : "" ?>" href="<?= $router->url('admin_ticket_index') ?>">Tickets</a>
+                </li>
             </ul>
             <form class="form-inline my-2 my-lg-0" method="POST" action="<?= $router->url('app_logout'); ?>">
                 <ul class="navbar-nav mr-auto">

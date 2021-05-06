@@ -4,8 +4,13 @@ use App\Auth;
 use App\Connection;
 use App\Repository\TicketRepository;
 
-if(!Auth::checkUserConnected())
+if(Auth::checkUserConnected()) {
+    if(isset($_SESSION['auth']['role']))
+        if($_SESSION['auth']['role'] !== 'ADMIN')
+            header('Location: '. $router->url('app_login'));
+} else {
     header('Location: '. $router->url('app_login'));
+}
     
 $id = (int)$params['id'];
 $slug = $params['slug'];
@@ -14,16 +19,13 @@ $slug = $params['slug'];
 $pdo = Connection::getPDO();
 
 // Récupération du ticket
-if($_SESSION['auth']['role'] !== "ADMIN")
-    $ticket = (new TicketRepository($pdo))->findTicketByAccountId($id, $_SESSION['auth']['id']);
-else
-    $ticket = (new TicketRepository($pdo))->find($id);
+$ticket = (new TicketRepository($pdo))->find($id);
 
 if($ticket === null)
 {
-    echo "Vous n'avez pas l'autorisation de visualiser ce ticket.";
+    echo "Aucun ticket trouvé";
     http_response_code(301);
-    header('Location: ' . $router->url('espaceperso_ticket_index'));
+    header('Location: ' . $router->url('admin_ticket_index'));
     die();
 }
 
@@ -42,12 +44,11 @@ $title = "Ticket " .  $ticket->getId();
   <div class="card-body">
     <h4 class="card-title">Objet : <?= $ticket->getObject() ?></h4>
     <p class="card-text">
-        <h4>Message :</h4><br>
+        <h4>Message :</h4>
         <?= $ticket->getContent(); ?>
     </p>
   </div>
 </div>
-<br>
 <div class="card border-success mb-3" style="max-width: 100rem;">
   <div class="card-header"><h1>Réponse</h1></div>
   <div class="card-body">
@@ -56,3 +57,4 @@ $title = "Ticket " .  $ticket->getId();
     </p>
   </div>
 </div>
+<a href="<?= $router->url('admin_ticket_index', ['id' => $ticket->getId(), 'slug' => $ticket->getSlug()]); ?>"><button class="btn btn-primary">Retour à la liste des tickets</button></a>

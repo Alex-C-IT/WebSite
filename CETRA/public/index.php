@@ -47,7 +47,7 @@ $router
         ->get('/partenaires/[*:slug]-[i:id]', 'partner/show', 'app_partner_show')                       // Page des partenaires
         ->get('/mentions', 'mentions', 'app_mentions')                                                  // Page des mentions légales
         ->get('/espaceclient/login', 'customer/login', 'app_espace_client_login')                       // Page de connexion espace client
-        //Connexion
+        // Connexion
         ->match('/auth/login', 'auth/login', 'app_login')                                               // Page de connexion
         ->post('/auth/logout', 'auth/logout', 'app_logout')                                             // Page de deconnexion
         // Espace client
@@ -57,9 +57,14 @@ $router
         ->get('/espaceperso/tickets', 'espaceperso/ticket/index', 'espaceperso_ticket_index')           // Liste des tickets espace personnel (par client)
         ->match('/espaceperso/ticket/new', 'espaceperso/ticket/new', 'espaceperso_ticket_new')          // Page création nouveau ticket
         ->post('/espaceperso/ticket/[i:id]/delete', 'espaceperso/ticket/delete', 'espaceperso_ticket_delete') // Suppression d'un ticket
+        // Tiket coté administration
+        ->get('/admin/tickets', 'admin/ticket/index', 'admin_ticket_index')                             // Liste des tickets administration
+        ->get('/admin/ticket/[*:slug]-[i:id]', 'admin/ticket/show', 'admin_ticket_show')                // Un ticket
+        ->post('/admin/ticket/[i:id]/delete', 'admin/ticket/delete', 'admin_ticket_delete')             // Suppression d'un ticket (admin)
+        ->match('/admin/ticket/[i:id]/reply', 'admin/ticket/reply', 'admin_ticket_reply')                 // Modification d'un ticket
         // Espace administration
         ->get('/admin/accueil', 'admin/index', 'admin_home')                                            // Accueil page d'administration
-        //Articles 
+        // Articles 
         ->get('/admin/actualites', 'admin/post/index', 'admin_post_index')
         ->match('/admin/actualite/[i:id]/edit', 'admin/post/edit', 'admin_post_edit')
         ->post('/admin/actualite/[i:id]/delete', 'admin/post/delete', 'admin_post_delete')
