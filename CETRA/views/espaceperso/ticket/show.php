@@ -43,7 +43,7 @@ $title = "Ticket " .  $ticket->getId();
     <h4 class="card-title">Objet : <?= $ticket->getObject() ?></h4>
     <p class="card-text">
         <h4>Message :</h4><br>
-        <?= $ticket->getContent(); ?>
+        <?= $ticket->getFormatedContent(); ?>
     </p>
   </div>
 </div>
@@ -52,7 +52,8 @@ $title = "Ticket " .  $ticket->getId();
   <div class="card-header"><h1>Réponse</h1></div>
   <div class="card-body">
     <p class="card-text">
-        <?= $ticket->getContentAnswer() === null ? "<p><b>Ce ticket n'est pas encore traité.</b></p>" : "<p>{$ticket->getContentAnswer()}</p>"; ?>
+        <?= $ticket->getFormatedContentAnswer() === null ? "<p><b>Ce ticket n'est pas encore traité.</b></p>" : "<p>{$ticket->getContentAnswer()}</p>"; ?>
     </p>
   </div>
 </div>
+<a href="<?= $router->url('espaceperso_ticket_index', ['id' => $ticket->getId(), 'slug' => $ticket->getSlug()]); ?>"><button class="btn btn-primary">Retour à la liste des tickets</button></a>

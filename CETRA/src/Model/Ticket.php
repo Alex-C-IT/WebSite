@@ -73,6 +73,11 @@ class Ticket {
         return $this->content;
     }
 
+    public function getFormatedContent() : ?string 
+    { 
+        return nl2br($this->getContent()); 
+    }
+
     /**
      * Set the value of content
      *
@@ -117,6 +122,11 @@ class Ticket {
     public function getContentAnswer() : ?string
     {
         return $this->contentAnswer;
+    }
+
+    public function getFormatedContentAnswer() : ?string 
+    { 
+        return nl2br($this->getContentAnswer()); 
     }
 
     /**
